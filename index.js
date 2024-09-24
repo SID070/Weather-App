@@ -150,13 +150,20 @@ async function fetchWeatherDetails(city) {
     try{
         
          const response= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
- 
+        
+         if(!response.ok){
+            throw new Error("City not found");
+         }
+
          const data= await response.json();
          loadingScreen.classList.remove("active");
          userInfoContainer.classList.add("active");
          renderWeatherInfo(data);
     }
     catch(e){
+    loadingScreen.classList.remove("active");
+    // document.querySelector('.error-container').classList.add('active');
      console.log("unable to fetch data :",e);
     }
  }
+
